@@ -23,11 +23,9 @@ import sublime, sublime_plugin
 class Settings:
     @staticmethod
     def get():
-        settings_file = 'dl_phpunit.sublime-settings'
+        settings_file = 'PHPUnit.sublime-settings'
         settings = sublime.load_settings(settings_file)
-        settings.set("test", 'lalala')
-        sublime.save_settings(settings_file)
-        print('lala')
+        print(settings.get("options"))
 
 Settings.get()
 
