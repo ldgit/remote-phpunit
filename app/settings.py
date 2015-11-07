@@ -16,6 +16,10 @@ class Settings():
     def path_to_phpunit(self):
         return self._get('path_to_phpunit')
 
+    @property
+    def tests_folder(self):
+        return self._get('tests_folder')
+
     @classmethod
     def _get(cls, name):
         settings = sublime.load_settings(cls._settings_file)

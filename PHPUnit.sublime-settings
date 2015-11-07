@@ -1,5 +1,6 @@
 {
 	"root": "",
+	"tests_folder": "",
 	"path_to_phpunit": "vendor/bin/phpunit",
 	"options": [
 		"-c config/phpunit.xml",

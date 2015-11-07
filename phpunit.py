@@ -18,24 +18,30 @@ FOLDER_SEPARATOR - /
 """
 
 import sublime, sublime_plugin
+
 try:
     # ST 3
     from .app.settings import Settings
+    from .app.path_builder import PathBuilder
 except ValueError:
     # ST 2
     from app.settings import Settings
+    from app.path_builder import PathBuilder
 
 plugin_settings = Settings()
 
+
 class GetTestRunCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        root_folder = Root.find(plugin_settings, self.view.window())
+        path_builder = PathBuilder()
         file_path = self.view.file_name()
+        root_folder = Root.find(plugin_settings, self.view.window())
+        tests_folder = 'tests/unit' if plugin_settings.tests_folder == '' else plugin_settings.tests_folder
 
-        print(root_folder)
-        print(file_path)
-        # sublime.set_clipboard(str(self.window.folders()))
-        # print(dir(self.window.active_view()))
+        test_path = path_builder.build(file_path, root_folder, tests_folder)
+        command = plugin_settings.path_to_phpunit + ' ' + ' '.join(plugin_settings.cl_options) + ' ' + test_path
+
+        sublime.set_clipboard(command)
 
 
 class GetCommandForFolder(sublime_plugin.WindowCommand):

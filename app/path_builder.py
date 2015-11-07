@@ -1,16 +1,24 @@
 class PathBuilder():
-    def __init__(self, root_folder, test_folder):
-        if not root_folder or not test_folder:
-            raise ValueError()
-        self._root = root_folder
-        self._tests = test_folder
+    def build(self, filepath, root, tests):
+        """
+        Takes full filepath, root folder path, and relative unit tests folder path and returns a path to
+        corresponding test file.
 
-    def build(self, filepath):
-        if not filepath:
-            return self._tests + '/'
+        :param string filepath: full path, including the filename, of the tested file
+        :param string root: root folder of the project
+        :param string tests: path to unit test folder, relative to root
+        :return:
+        """
 
-        root = self._root[:-1] if self._root.endswith('\\') else self._root
+        filepath = filepath.replace('\\', '/')
+        root = root.replace('\\', '/')
+        tests = tests.replace('\\', '/')
 
-        path = self._tests + '/' + filepath.replace(root + '\\', '')
+        filepath = filepath.replace(root + '/', '')
 
-        return path.replace('\\', '/')
+        if not tests.endswith('/'):
+            tests += '/'
+
+        final_path = tests + filepath[:-4] + 'Test' + filepath[-4:]
+
+        return final_path[1:] if final_path.startswith('/') else final_path
