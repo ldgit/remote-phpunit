@@ -18,29 +18,42 @@ FOLDER_SEPARATOR - /
 """
 
 import sublime, sublime_plugin
+from app.settings import Settings
 
+plugin_settings = Settings()
 
-class Settings:
-    @staticmethod
-    def get():
-        settings_file = 'PHPUnit.sublime-settings'
-        settings = sublime.load_settings(settings_file)
-        print(settings.get("options"))
+# plugin_settings.cl_options
+# plugin_settings.path_to_phpunit
+# print(plugin_settings.root)
 
-Settings.get()
 
 class GetTestRunCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        # root_folder = self.window.folders()[1];
-        try:
-            root_folder = self.view.window().folders()[0];
-        except IndexError:
-            sublime.error_message(u"Neuspješno dohvaćanje root foldera")
-            return None
+        root_folder = Root.find(plugin_settings, self.view.window())
+        file_path = self.view.file_name()
 
         print(root_folder)
-        print(self.view.file_name())
-
-
+        print(file_path)
         # sublime.set_clipboard(str(self.window.folders()))
         # print(dir(self.window.active_view()))
+
+
+class GetCommandForFolder(sublime_plugin.WindowCommand):
+    def run(self, dirs):
+        root_folder = Root.find(plugin_settings, self.window)
+        folder_path = dirs[0]
+        print(root_folder)
+        print(folder_path)
+
+
+class Root():
+    @staticmethod
+    def find(settings, window):
+        if settings.root != '':
+            return settings.root
+
+        try:
+            return window.folders()[0];
+        except IndexError:
+            sublime.error_message(u"Neuspješno dohvaćanje root foldera")
+            return ''
