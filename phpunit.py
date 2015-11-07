@@ -18,14 +18,14 @@ FOLDER_SEPARATOR - /
 """
 
 import sublime, sublime_plugin
-from app.settings import Settings
+try:
+    # ST 3
+    from .app.settings import Settings
+except ValueError:
+    # ST 2
+    from app.settings import Settings
 
 plugin_settings = Settings()
-
-# plugin_settings.cl_options
-# plugin_settings.path_to_phpunit
-# print(plugin_settings.root)
-
 
 class GetTestRunCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -46,7 +46,7 @@ class GetCommandForFolder(sublime_plugin.WindowCommand):
         print(folder_path)
 
 
-class Root():
+class Root:
     @staticmethod
     def find(settings, window):
         if settings.root != '':
