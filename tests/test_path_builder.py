@@ -34,30 +34,9 @@ class TestPathBuilder(unittest.TestCase):
         root = 'C:\\root_folder'
         tests = 'tests/unit'
         self.assertEqual('tests/unit/some_folder/a_fileTest.php', self.builder.build(file, root, tests))
-        
-    #
-    # def test_if_tests_folder_empty_raise_error(self):
-    #     with self.assertRaises(ValueError):
-    #         self.builder.build('', 'root', '')
-    #
-    # def test_empty_filename(self):
-    #     self.assertEqual('tests/', self.builder.build('', 'C:\Programming\PHP\ProjectRoot', 'tests'))
-    #
-    #     self.assertEqual('different_test_folder/', self.builder.build('', 'different_root', 'different_test_folder'))
-    #
-    # def test_file_at_root_level(self):
-    #     path = self.builder.build('C:\\Programming\\PHP\\ProjectRoot\\file.py', 'C:\\Programming\\PHP\\ProjectRoot',
-    #                               'tests')
-    #
-    #     self.assertEqual('tests/file.py', path)
-    #
-    # def test_replace_backslashes_with_forward_slashes(self):
-    #     path = self.builder.build('C:\\ProjectRoot\\some\\inner\\folder\\file.py', 'C:\\ProjectRoot', 'tests/unit')
-    #
-    #     self.assertEqual('tests/unit/some/inner/folder/file.py', path)
-    #
-    # def test_strip_trailing_slash(self):
-    #     path = self.builder.build('C:\\Programming\\PHP\\ProjectRoot\\file2.py', 'C:\\Programming\\PHP\\ProjectRoot\\',
-    #                               'tests')
-    #
-    #     self.assertEqual('tests/file2.py', path)
+    
+    def test_if_filepath_does_not_end_in_php_do_not_append_Test(self):
+        self.assertEqual('a_folder', self.builder.build('a_folder', '', ''))
+
+    def test_filepath_does_not_end_in_php(self):
+        self.assertEqual('unit/tests/a_folder', self.builder.build('root/path/a_folder', 'root/path', 'unit/tests'))

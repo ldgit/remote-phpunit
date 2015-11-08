@@ -35,7 +35,7 @@ class GetTestRunCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         path_builder = PathBuilder()
         file_path = self.view.file_name()
-        root_folder = Root.find(plugin_settings, self.view.window())
+        root_folder = Helper.find_root(plugin_settings, self.view.window())
         tests_folder = 'tests/unit' if plugin_settings.tests_folder == '' else plugin_settings.tests_folder
 
         test_path = path_builder.build(file_path, root_folder, tests_folder)
@@ -46,15 +46,20 @@ class GetTestRunCommand(sublime_plugin.TextCommand):
 
 class GetCommandForFolder(sublime_plugin.WindowCommand):
     def run(self, dirs):
-        root_folder = Root.find(plugin_settings, self.window)
-        folder_path = dirs[0]
-        print(root_folder)
-        print(folder_path)
+        path_builder = PathBuilder()
+        root_folder = Helper.find_root(plugin_settings, self.window)
+        file_path = dirs[0]
+        tests_folder = 'tests/unit' if plugin_settings.tests_folder == '' else plugin_settings.tests_folder
+
+        test_path = path_builder.build(file_path, root_folder, tests_folder)
+        command = plugin_settings.path_to_phpunit + ' ' + ' '.join(plugin_settings.cl_options) + ' ' + test_path
+
+        sublime.set_clipboard(command)
 
 
-class Root:
+class Helper:
     @staticmethod
-    def find(settings, window):
+    def find_root(settings, window):
         if settings.root != '':
             return settings.root
 
