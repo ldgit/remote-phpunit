@@ -17,6 +17,9 @@ class PathBuilder():
         return self.build_path(filepath, tests)
 
     def build_path(self, filepath, tests):
+        if filepath.startswith(tests):
+            return filepath
+
         if self.is_php_file(filepath):
             path = tests + self.append_test_suffix(filepath)
         else:

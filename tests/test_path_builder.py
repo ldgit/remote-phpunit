@@ -40,3 +40,9 @@ class TestPathBuilder(unittest.TestCase):
 
     def test_filepath_does_not_end_in_php(self):
         self.assertEqual('unit/tests/a_folder', self.builder.build('root/path/a_folder', 'root/path', 'unit/tests'))
+        
+    def test_do_not_append_test_folder_path_and_test_suffix_if_file_already_in_test_folder(self):
+        file = 'C:\\root_folder\\tests\\unit\\some_folder\\a_fileTest.php'
+        root = 'C:\\root_folder'
+        tests = 'tests/unit'
+        self.assertEqual('tests/unit/some_folder/a_fileTest.php', self.builder.build(file, root, tests))
