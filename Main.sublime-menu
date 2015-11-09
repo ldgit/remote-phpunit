@@ -12,7 +12,7 @@
         "children":
         [
           {
-            "caption": "PHPUnit",
+            "caption": "Remote PHPUnit",
             "children":
             [
               {
