@@ -2,7 +2,7 @@ import sublime, sublime_plugin
 
 
 class Settings():
-    _settings_file = 'PHPUnit.sublime-settings'
+    _settings_file = 'remote-phpunit.sublime-settings'
 
     @property
     def root(self):

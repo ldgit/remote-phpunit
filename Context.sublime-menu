@@ -2,6 +2,5 @@
     {
       "command": "get_test_run",
       "caption": "Run PHPUnit test on file"
-    },
-    { "caption": "-", "id": "end" }
+    }
 ]

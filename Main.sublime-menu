@@ -18,12 +18,12 @@
               {
                 "caption": "Settings – Default",
                 "command": "open_file",
-                "args": { "file": "${packages}/PHPUnit/PHPUnit.sublime-settings" }
+                "args": { "file": "${packages}/remote-phpunit/remote-phpunit.sublime-settings" }
               },
               {
                 "caption": "Settings – User",
                 "command": "open_file",
-                "args": { "file": "${packages}/User/PHPUnit.sublime-settings" }
+                "args": { "file": "${packages}/User/remote-phpunit.sublime-settings" }
               }
             ]
           }
