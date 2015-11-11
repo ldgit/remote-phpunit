@@ -46,3 +46,7 @@ class TestPathBuilder(unittest.TestCase):
         root = 'C:\\root_folder'
         tests = 'tests/unit'
         self.assertEqual('tests/unit/some_folder/a_fileTest.php', self.builder.build(file, root, tests))
+
+    def test_fail_test(self):
+        self.fail('just test fail')
+
