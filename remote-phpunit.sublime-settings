@@ -1,7 +1,11 @@
 {
+    // path to root of your project, if this is empty plugin uses the current sublime project root
 	"root": "",
-	"tests_folder": "",
+	// path to test folder, relative and starting from root
+	"tests_folder": "tests/unit",
+	// path to phpunit, relative and starting from root
 	"path_to_phpunit": "vendor/bin/phpunit",
+	// command line options
 	"options": [
 		"-c config/phpunit.xml",
 		"--colors=\"always\""

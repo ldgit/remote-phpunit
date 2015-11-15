@@ -1,8 +1,9 @@
-import sublime, sublime_plugin
-
-
 class Settings():
-    _settings_file = 'remote-phpunit.sublime-settings'
+    PLUGIN_FOLDER = 'remote-phpunit'
+
+    def __init__(self, sublime):
+        self._settings_file = self.PLUGIN_FOLDER + '.sublime-settings'
+        self._sublime = sublime
 
     @property
     def root(self):
@@ -20,8 +21,7 @@ class Settings():
     def tests_folder(self):
         return self._get('tests_folder')
 
-    @classmethod
-    def _get(cls, name):
-        settings = sublime.load_settings(cls._settings_file)
+    def _get(self, name):
+        settings = self._sublime.load_settings(self._settings_file)
 
         return settings.get(name)
