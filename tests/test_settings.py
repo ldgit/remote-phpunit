@@ -3,7 +3,6 @@ from app.settings import Settings
 
 
 class TestSettings(unittest.TestCase):
-
     def setUp(self):
         self.sublime = SublimeSpy()
         self.settings = Settings(self.sublime)
