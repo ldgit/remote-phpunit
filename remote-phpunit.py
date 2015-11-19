@@ -26,24 +26,5 @@ class GetTestRunCommand(sublime_plugin.TextCommand):
 
 class GetCommandForFolder(sublime_plugin.WindowCommand):
     def run(self, dirs):
-        path_builder = PathBuilder()
-        root_folder = Helper.find_root(plugin_settings, self.window)
-        file_path = dirs[0]
-
-        test_path = path_builder.build(file_path, root_folder, plugin_settings.tests_folder)
-        command = plugin_settings.path_to_phpunit + ' ' + ' '.join(plugin_settings.cl_options) + ' ' + test_path
-
-        sublime.set_clipboard(command)
-
-
-class Helper:
-    @staticmethod
-    def find_root(settings, window):
-        if settings.root != '':
-            return settings.root
-
-        try:
-            return window.folders()[0];
-        except IndexError:
-            sublime.error_message(u"Neuspješno dohvaćanje root foldera")
-            return ''
+        command = PHPUnitCommand(sublime, plugin_settings)
+        command.create_run_test_on_folder(dirs, self.window)
