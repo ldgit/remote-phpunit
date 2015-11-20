@@ -23,11 +23,13 @@ class TestPHPUnitCommand(unittest.TestCase):
 
         self.assertEqual('path/to/phpunit tests/unit/then/path/to/fileTest.php', self._sublime.text_pasted_to_clipboard)
 
-    def test_get_command_when_root_implied_from_project_folder(self):
+    def test_when_root_empty_in_settings_get_it_from_project_folder(self):
         self._settings.root = ''
         self._view.project_folders = ['C:/path/to/root']
 
         self._command.create_run_test_command(self._view)
+
+        self.assertEqual('path/to/phpunit tests/unit/then/path/to/fileTest.php', self._sublime.text_pasted_to_clipboard)
 
     def test_get_command_with_cl_options(self):
         self._settings.cl_options = ['-c config/phpunit.xml', '--colors=\"always\"']
