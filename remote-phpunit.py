@@ -8,13 +8,11 @@ import os
 try:
     # ST 3
     from .app.settings import Settings
-    from .app.path_builder import PathBuilder
     from .app.phpunit_command import PHPUnitCommand
     from .app.open_file_command import OpenFileCommand
 except ValueError:
     # ST 2
     from app.settings import Settings
-    from app.path_builder import PathBuilder
     from app.phpunit_command import PHPUnitCommand
     from app.open_file_command import OpenFileCommand
 
