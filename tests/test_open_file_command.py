@@ -12,6 +12,36 @@ class TestOpenFileCommand(unittest.TestCase):
         # SUT
         self.command = OpenFileCommand(self.settings, self.os_path, self.sublime)
 
+    def test_open_source_file(self):
+        self.settings.tests_folder = 'tests/unit'
+
+        self.command.open_source_file('C:/path/to/root/tests/unit/path/to/fileTest.php', self.window)
+
+        self.assertEqual('C:/path/to/root/path/to/file.php', self.window.file_to_open)
+
+    def test_open_source_file_works_with_backslashes(self):
+        self.settings.tests_folder = 'tests/unit'
+
+        self.command.open_source_file('C:\\path\\to\\root\\tests\\unit\\path\\to\\fileTest.php', self.window)
+
+        self.assertEqual('C:/path/to/root/path/to/file.php', self.window.file_to_open)
+
+    def test_if_source_file_exists_return_true(self):
+        self.settings.tests_folder = 'tests/unit'
+        self.os_path.is_file_will_return = True
+
+        actual = self.command.source_file_exists('C:\\path\\to\\root\\tests\\unit\\path\\to\\fileTest.php')
+
+        self.assertTrue(actual)
+        self.assertEqual('C:/path/to/root/path/to/file.php', self.os_path.isfile_received_filepath)
+
+    def test_if_source_file_does_not_exist_return_false(self):
+        self.settings.tests_folder = 'tests/unit'
+        self.os_path.is_file_will_return = False
+
+        self.assertFalse(self.command.source_file_exists('C:/path/to/root/path/to/fileTest.php'))
+        self.assertEqual('C:/path/to/root/path/to/file.php', self.os_path.isfile_received_filepath)
+
     def test_open_file(self):
         self.settings.root = 'C:/path/to/root'
         self.settings.tests_folder = 'tests/unit'
@@ -27,16 +57,16 @@ class TestOpenFileCommand(unittest.TestCase):
 
         self.command.test_file_exists('C:/path/to/root/path/to/file.php', self.window)
 
-        self.assertEqual('C:/path/to/root/tests/unit/path/to/fileTest.php', self.os_path.is_file_received_filepath)
+        self.assertEqual('C:/path/to/root/tests/unit/path/to/fileTest.php', self.os_path.isfile_received_filepath)
 
-    def test_eliminate_trailing_slash_from_root(self):
+    def test_file_exists_eliminate_trailing_slash_from_root(self):
         self.window.project_root = 'C:/path/to/root/'
         self.settings.root = ''
         self.settings.tests_folder = 'tests/unit'
 
         self.command.test_file_exists('C:/path/to/root/path/to/file.php', self.window)
 
-        self.assertEqual('C:/path/to/root/tests/unit/path/to/fileTest.php', self.os_path.is_file_received_filepath)
+        self.assertEqual('C:/path/to/root/tests/unit/path/to/fileTest.php', self.os_path.isfile_received_filepath)
 
     def test_if_test_file_exists_return_true(self):
         self.settings.root = 'C:/path/to/root/'
@@ -59,8 +89,7 @@ class TestOpenFileCommand(unittest.TestCase):
 
         self.command.test_file_exists('C:\\path\\to\\root\\path\\to\\file.php', self.window)
 
-        self.assertEqual('C:/path/to/root/tests/unit/path/to/fileTest.php', self.os_path.is_file_received_filepath)
-
+        self.assertEqual('C:/path/to/root/tests/unit/path/to/fileTest.php', self.os_path.isfile_received_filepath)
 
 
 class PluginSettingsStub:
@@ -82,10 +111,10 @@ class WindowSpy:
 class OsPathSpy:
     def __init__(self):
         self.is_file_will_return = None
-        self.is_file_received_filepath = None
+        self.isfile_received_filepath = None
 
     def isfile(self, filepath):
-        self.is_file_received_filepath = filepath
+        self.isfile_received_filepath = filepath
 
         return self.is_file_will_return
 

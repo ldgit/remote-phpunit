@@ -6,5 +6,9 @@
     {
       "command": "open_test_file",
       "caption": "Open test file"
+    },
+    {
+      "command": "open_source_file",
+      "caption": "Open source file"
     }
 ]
