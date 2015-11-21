@@ -9,6 +9,8 @@ class PHPUnitCommand:
     def create_run_test_command(self, view):
         file_path = view.file_name()
         root_folder = self._find_root(view.window())
+        if root_folder == '':
+            return
 
         test_path = self._get_path_builder().build(file_path, root_folder, self._plugin_settings.tests_folder)
         command = self._build_command(test_path)
@@ -35,7 +37,7 @@ class PHPUnitCommand:
         try:
             return window.folders()[0];
         except IndexError:
-            self._sublime.error_message(u"Neuspjesno dohvacanje root foldera")
+            self._sublime.error_message(u"Could not find root folder")
             return ''
 
     def _get_path_builder(self):

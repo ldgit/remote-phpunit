@@ -31,6 +31,14 @@ class TestPHPUnitCommand(unittest.TestCase):
 
         self.assertEqual('path/to/phpunit tests/unit/then/path/to/fileTest.php', self._sublime.text_pasted_to_clipboard)
 
+    def test_if_empty_root_in_settings_and_no_project_opened_show_sublime_error_message(self):
+        self._view.project_folders = []
+        self._settings.root = ''
+
+        self._command.create_run_test_command(self._view)
+
+        self.assertEqual(u"Could not find root folder", self._sublime.error_message_string)
+
     def test_get_command_with_cl_options(self):
         self._settings.cl_options = ['-c config/phpunit.xml', '--colors=\"always\"']
 
@@ -42,8 +50,7 @@ class TestPHPUnitCommand(unittest.TestCase):
 
     def test_get_command_for_folder(self):
         dirs = ['C:/path/to/root/then/path/to/folder']
-        window = WindowStub()
-        window.folders = lambda: 'C:/path/to/root'
+        window = self.get_window_stub('C:/path/to/root')
 
         self._command.create_run_test_on_folder(dirs, window)
 
@@ -53,8 +60,7 @@ class TestPHPUnitCommand(unittest.TestCase):
 
     def test_get_command_for_test_folder(self):
         dirs = ['C:/path/to/root/tests/unit/then/path/to/folder']
-        window = WindowStub()
-        window.folders = lambda: 'C:/path/to/root'
+        window = self.get_window_stub('C:/path/to/root')
 
         self._command.create_run_test_on_folder(dirs, window)
 
@@ -62,13 +68,23 @@ class TestPHPUnitCommand(unittest.TestCase):
             'path/to/phpunit tests/unit/then/path/to/folder',
             self._sublime.text_pasted_to_clipboard)
 
+    def get_window_stub(self, path_to_root):
+        window = WindowStub()
+        window.folders = lambda: path_to_root
+
+        return window
+
 
 class SublimeSpy:
     def __init__(self):
+        self.error_message_string = None
         self.text_pasted_to_clipboard = None
 
     def set_clipboard(self, command):
         self.text_pasted_to_clipboard = command
+
+    def error_message(self, error_message_string):
+        self.error_message_string = error_message_string
 
 
 class PluginSettingsStub:
