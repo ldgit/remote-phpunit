@@ -10,5 +10,5 @@ class Helper:
         try:
             return window.folders()[0];
         except IndexError:
-            self._sublime.error_message(u"Could not find root folder")
+            self._sublime.status_message(u"Remote PHPUnit: could not find root folder")
             return ''

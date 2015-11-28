@@ -31,13 +31,13 @@ class TestPHPUnitCommand(unittest.TestCase):
 
         self.assertEqual('path/to/phpunit tests/unit/then/path/to/fileTest.php', self._sublime.text_pasted_to_clipboard)
 
-    def test_if_empty_root_in_settings_and_no_project_opened_show_sublime_error_message(self):
+    def test_if_empty_root_in_settings_and_no_project_opened_show_error_message_in_status_bar(self):
         self._view.project_folders = []
         self._settings.root = ''
 
         self._command.create_run_test_command(self._view)
 
-        self.assertEqual(u"Could not find root folder", self._sublime.error_message_string)
+        self.assertEqual(u"Remote PHPUnit: could not find root folder", self._sublime.status_message_string)
 
     def test_get_command_with_cl_options(self):
         self._settings.cl_options = ['-c config/phpunit.xml', '--colors=\"always\"']
@@ -77,14 +77,14 @@ class TestPHPUnitCommand(unittest.TestCase):
 
 class SublimeSpy:
     def __init__(self):
-        self.error_message_string = None
+        self.status_message_string = None
         self.text_pasted_to_clipboard = None
 
     def set_clipboard(self, command):
         self.text_pasted_to_clipboard = command
 
-    def error_message(self, error_message_string):
-        self.error_message_string = error_message_string
+    def status_message(self, status_message_string):
+        self.status_message_string = status_message_string
 
 
 class PluginSettingsStub:
