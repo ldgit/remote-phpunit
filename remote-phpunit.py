@@ -38,7 +38,6 @@ class OpenTestFile(sublime_plugin.TextCommand):
 
     def is_enabled(self):
         command = OpenFileCommand(plugin_settings, os.path, sublime)
-
         return command.test_file_exists(self.view.file_name(), self.view.window())
 
 
@@ -49,5 +48,4 @@ class OpenSourceFile(sublime_plugin.TextCommand):
 
     def is_enabled(self):
         command = OpenFileCommand(plugin_settings, os.path, sublime)
-
         return command.source_file_exists(self.view.file_name())

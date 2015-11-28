@@ -1,19 +1,34 @@
-import unittest
 import os
 import shutil
+import unittest
 
-
-class FileCreator:
-    def create(self, filepath):
-        try:
-            open(filepath, 'a').close()
-        except IOError:
-            directory_path = os.path.dirname(filepath)
-            os.makedirs(directory_path)
-            open(filepath, 'a').close()
+from app.file_creator import FileCreator
 
 
 class TestFileCreator(unittest.TestCase):
+    def test_file_creation(self):
+        self.file_creator.create(self.new_file)
+
+        self.assertTrue(os.path.isfile(self.new_file), 'File not found in expected path')
+
+        os.remove(self.new_file)
+
+    def test_when_creating_test_file_that_already_exists_do_not_overwrite_it(self):
+        self.assertTrue(os.path.isfile(self.existing_file), 'Guard assertion: file must exist before this test starts')
+
+        self.file_creator.create(self.existing_file)
+
+        self.assertTrue(os.path.isfile(self.existing_file), 'File not found in expected path')
+        with open(self.existing_file) as readfile:
+            self.assertEqual('some text', readfile.read())
+
+    def test_create_file_and_its_directory_tree(self):
+        self.file_creator.create(self.new_file_in_new_dir_tree)
+
+        self.assertTrue(os.path.isfile(self.new_file_in_new_dir_tree))
+
+        shutil.rmtree(self.new_dir)
+
     @classmethod
     def setUpClass(cls):
         path = os.path.realpath(__file__.replace('\\', '/'))
@@ -36,26 +51,3 @@ class TestFileCreator(unittest.TestCase):
         self.assertFalse(os.path.isfile(self.new_file), 'Guard assertion: file should not already exist')
         # SUT
         self.file_creator = FileCreator()
-
-    def test_file_creation(self):
-        self.file_creator.create(self.new_file)
-
-        self.assertTrue(os.path.isfile(self.new_file), 'File not found in expected path')
-
-        os.remove(self.new_file)
-
-    def test_when_creating_test_file_that_already_exists_do_not_overwrite_it(self):
-        self.assertTrue(os.path.isfile(self.existing_file), 'Guard assertion: file must exist before this test starts')
-
-        self.file_creator.create(self.existing_file)
-
-        self.assertTrue(os.path.isfile(self.existing_file), 'File not found in expected path')
-        with open(self.existing_file) as readfile:
-            self.assertEqual('some text', readfile.read())
-
-    def test_create_file_and_directories_to_file(self):
-        self.file_creator.create(self.new_file_in_new_dir_tree)
-
-        self.assertTrue(os.path.isfile(self.new_file_in_new_dir_tree))
-
-        shutil.rmtree(self.new_dir)
