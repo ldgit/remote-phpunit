@@ -5,7 +5,12 @@ import shutil
 
 class FileCreator:
     def create(self, filepath):
-        open(filepath, 'a').close()
+        try:
+            open(filepath, 'a').close()
+        except IOError:
+            directory_path = os.path.dirname(filepath)
+            os.makedirs(directory_path)
+            open(filepath, 'a').close()
 
 
 class TestFileCreator(unittest.TestCase):
@@ -19,16 +24,16 @@ class TestFileCreator(unittest.TestCase):
 
         cls.new_file = os.path.join(cls.currentDir, 'test_file.php')
 
+        cls.new_dir_tree = os.path.join(cls.currentDir, 'new_folder', 'second_folder')
+        cls.new_dir = os.path.join(cls.currentDir, 'new_folder')
+        cls.new_file_in_new_dir_tree = os.path.join(cls.currentDir, 'new_folder', 'second_folder', 'testfile.php')
+
     @classmethod
     def tearDownClass(cls):
         os.remove(cls.existing_file)
 
     def setUp(self):
-        self.new_dir_tree = os.path.join(self.currentDir, 'new_folder', 'second_folder')
-        self.new_dir = os.path.join(self.currentDir, 'new_folder')
-        self.new_file_in_dir_tree = os.path.join(self.currentDir, 'new_folder', 'second_folder', 'testfile.php')
         self.assertFalse(os.path.isfile(self.new_file), 'Guard assertion: file should not already exist')
-
         # SUT
         self.file_creator = FileCreator()
 
@@ -48,9 +53,9 @@ class TestFileCreator(unittest.TestCase):
         with open(self.existing_file) as readfile:
             self.assertEqual('some text', readfile.read())
 
-    def test_folder_creation_and_deletion(self):
-        # not yet implemented
-        os.makedirs(self.new_dir_tree)
-        open(self.new_file_in_dir_tree, 'a').close()
+    def test_create_file_and_directories_to_file(self):
+        self.file_creator.create(self.new_file_in_new_dir_tree)
+
+        self.assertTrue(os.path.isfile(self.new_file_in_new_dir_tree))
 
         shutil.rmtree(self.new_dir)
