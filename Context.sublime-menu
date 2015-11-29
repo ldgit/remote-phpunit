@@ -10,5 +10,9 @@
     {
       "command": "open_source_file",
       "caption": "Open source file"
+    },
+    {
+      "command": "create_test_file",
+      "caption": "Create test file"
     }
 ]

@@ -10,11 +10,13 @@ try:
     from .app.settings import Settings
     from .app.phpunit_command import PHPUnitCommand
     from .app.open_file_command import OpenFileCommand
+    from .app.create_file_command import CreateFileCommand
 except ValueError:
     # ST 2
     from app.settings import Settings
     from app.phpunit_command import PHPUnitCommand
     from app.open_file_command import OpenFileCommand
+    from app.create_file_command import CreateFileCommand
 
 plugin_settings = Settings(sublime)
 
@@ -49,3 +51,13 @@ class OpenSourceFile(sublime_plugin.TextCommand):
     def is_enabled(self):
         command = OpenFileCommand(plugin_settings, os.path, sublime)
         return command.source_file_exists(self.view.file_name())
+
+
+class CreateTestFile(sublime_plugin.TextCommand):
+    def run(self, edit):
+        command = CreateFileCommand(sublime, plugin_settings)
+        command.create_test_file(self.view)
+
+    def is_enabled(self):
+        command = OpenFileCommand(plugin_settings, os.path, sublime)
+        return not command.test_file_exists(self.view.file_name(), self.view.window())

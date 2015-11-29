@@ -1,4 +1,5 @@
 from .helper import Helper
+from .path_builder import PathBuilder
 
 
 class OpenFileCommand:
@@ -26,7 +27,7 @@ class OpenFileCommand:
         window.open_file(self._get_source_filepath(test_filepath))
 
     def _get_test_filepath(self, root, filepath):
-        test_filepath = root + '/' + self._settings.tests_folder + self._append_test_suffix(filepath[len(root):])
+        test_filepath = root + '/' + PathBuilder().build(filepath, root, self._settings.tests_folder)
 
         return test_filepath.replace('\\', '/')
 
@@ -37,6 +38,3 @@ class OpenFileCommand:
         filepath = filepath[:-8] + filepath[-4:]
 
         return filepath.replace('//', '/')
-
-    def _append_test_suffix(self, filepath):
-        return filepath[:-4] + 'Test' + filepath[-4:]
