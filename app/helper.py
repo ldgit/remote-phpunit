@@ -8,7 +8,7 @@ class Helper:
             return self._plugin_settings.root
 
         try:
-            return window.folders()[0];
+            return window.folders()[0]
         except IndexError:
             self._sublime.status_message(u"Remote PHPUnit: could not find root folder")
             return ''
