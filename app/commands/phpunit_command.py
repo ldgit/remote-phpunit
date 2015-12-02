@@ -1,5 +1,5 @@
-from app.path_builder import PathBuilder
-from app.helper import Helper
+from ..path_builder import PathBuilder
+from ..helper import Helper
 
 
 class PHPUnitCommand:
