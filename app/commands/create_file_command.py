@@ -1,8 +1,8 @@
 import os
 
-from .file_creator import FileCreator
-from .helper import Helper
-from .path_builder import PathBuilder
+from app.file_creator import FileCreator
+from app.helper import Helper
+from app.path_builder import PathBuilder
 
 
 class CreateFileCommand:

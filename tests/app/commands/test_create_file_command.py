@@ -1,6 +1,6 @@
 import unittest
 
-from app.create_file_command import CreateFileCommand
+from app.commands.create_file_command import CreateFileCommand
 
 
 class TestCreateFileCommand(unittest.TestCase):

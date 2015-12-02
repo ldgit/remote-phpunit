@@ -1,5 +1,6 @@
 import unittest
-from app.open_file_command import OpenFileCommand
+
+from app.commands.open_file_command import OpenFileCommand
 
 
 class TestOpenFileCommand(unittest.TestCase):

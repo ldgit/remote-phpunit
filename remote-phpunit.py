@@ -1,22 +1,19 @@
 #!/usr/bin/python
 # -*- encoding: UTF-8 -*-
 
+import os
+
 import sublime
 import sublime_plugin
-import os
 
 try:
     # ST 3
     from .app.settings import Settings
-    from .app.phpunit_command import PHPUnitCommand
-    from .app.open_file_command import OpenFileCommand
-    from .app.create_file_command import CreateFileCommand
+    from .app.commands import *
 except ValueError:
     # ST 2
     from app.settings import Settings
-    from app.phpunit_command import PHPUnitCommand
-    from app.open_file_command import OpenFileCommand
-    from app.create_file_command import CreateFileCommand
+    from app.commands import *
 
 plugin_settings = Settings(sublime)
 

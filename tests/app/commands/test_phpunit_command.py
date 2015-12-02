@@ -1,5 +1,6 @@
-from app.phpunit_command import PHPUnitCommand
 import unittest
+
+from app.commands.phpunit_command import PHPUnitCommand
 
 
 class TestPHPUnitCommand(unittest.TestCase):
