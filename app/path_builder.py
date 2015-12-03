@@ -10,9 +10,9 @@ class PathBuilder():
         :return: string path to test file
         """
 
-        filepath, root, tests = self.replace_backslashes_with_forward_slashes(filepath, root, tests)
-        filepath = self.remove_root_from_filepath(filepath, root)
-        tests = self.add_trailing_slash_if_missing(tests)
+        filepath, root, tests = self._replace_backslashes_with_forward_slashes(filepath, root, tests)
+        filepath = self._remove_root_from_filepath(filepath, root)
+        tests = self._add_trailing_slash_if_missing(tests)
 
         return self.build_path(filepath, tests)
 
@@ -20,31 +20,31 @@ class PathBuilder():
         if filepath.startswith(tests):
             return filepath
 
-        if self.is_php_file(filepath):
-            path = tests + self.append_test_suffix(filepath)
+        if self._is_php_file(filepath):
+            path = tests + self._append_test_suffix(filepath)
         else:
             path = tests + filepath
 
         return path[1:] if path.startswith('/') else path
 
-    def add_trailing_slash_if_missing(self, tests):
+    def _add_trailing_slash_if_missing(self, tests):
         if not tests.endswith('/'):
             tests += '/'
 
         return tests
 
-    def remove_root_from_filepath(self, filepath, root):
+    def _remove_root_from_filepath(self, filepath, root):
         return filepath.replace(root + '/', '')
 
-    def replace_backslashes_with_forward_slashes(self, filepath, root, tests):
+    def _replace_backslashes_with_forward_slashes(self, filepath, root, tests):
         filepath = filepath.replace('\\', '/')
         root = root.replace('\\', '/')
         tests = tests.replace('\\', '/')
 
         return filepath, root, tests
 
-    def append_test_suffix(self, filepath):
+    def _append_test_suffix(self, filepath):
         return filepath[:-4] + 'Test' + filepath[-4:]
 
-    def is_php_file(self, filepath):
+    def _is_php_file(self, filepath):
         return filepath[-4:] == '.php'
