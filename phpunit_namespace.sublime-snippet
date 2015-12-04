@@ -4,7 +4,7 @@
 
 namespace $TM_FILEPATH;
 
-class $TM_FILENAME extends PHPUnit_Framework_TestCase
+class $TM_FILENAME extends \PHPUnit_Framework_TestCase
 {
 
 }
