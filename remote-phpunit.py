@@ -23,6 +23,10 @@ class GetTestRunCommand(sublime_plugin.TextCommand):
         command = PHPUnitCommand(sublime, plugin_settings)
         command.create_run_test_command(self.view)
 
+    def is_enabled(self):
+        command = OpenFileCommand(plugin_settings, os.path, sublime)
+        return command.test_file_exists(self.view.file_name(), self.view.window())
+
 
 class GetCommandForFolder(sublime_plugin.WindowCommand):
     def run(self, dirs):
