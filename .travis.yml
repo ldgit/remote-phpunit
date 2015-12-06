@@ -1,6 +1,12 @@
 language: python
-install: true
+install:
+    - pip install pytest-cov
+    - pip install coveralls
 python:
     - "3.3"
     - "2.6"
-script: py.test
+script:
+    - py.test
+    - py.test --cov=. tests/
+after_success:
+    coveralls
