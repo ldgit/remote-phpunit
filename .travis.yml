@@ -6,6 +6,6 @@ python:
     - "3.3"
     - "2.6"
 script:
-    - py.test
+    - py.test --cov=. tests/
 after_success:
     coveralls
