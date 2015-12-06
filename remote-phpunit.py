@@ -27,6 +27,9 @@ class GetTestRunCommand(sublime_plugin.TextCommand):
         command = OpenFileCommand(plugin_settings, os.path, sublime)
         return command.test_file_exists(self.view.file_name(), self.view.window())
 
+    def is_visible(self):
+        return FileChecker().is_php_file(self.view.file_name())
+
 
 class GetCommandForFolder(sublime_plugin.WindowCommand):
     def run(self, dirs):
@@ -43,6 +46,9 @@ class OpenTestFile(sublime_plugin.TextCommand):
         command = OpenFileCommand(plugin_settings, os.path, sublime)
         return command.test_file_exists(self.view.file_name(), self.view.window())
 
+    def is_visible(self):
+        return FileChecker().is_php_file(self.view.file_name())
+
 
 class OpenSourceFile(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -53,6 +59,9 @@ class OpenSourceFile(sublime_plugin.TextCommand):
         command = OpenFileCommand(plugin_settings, os.path, sublime)
         return command.source_file_exists(self.view.file_name())
 
+    def is_visible(self):
+        return FileChecker().is_php_file(self.view.file_name())
+
 
 class CreateTestFile(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -62,3 +71,6 @@ class CreateTestFile(sublime_plugin.TextCommand):
     def is_enabled(self):
         command = OpenFileCommand(plugin_settings, os.path, sublime)
         return not command.test_file_exists(self.view.file_name(), self.view.window())
+
+    def is_visible(self):
+        return FileChecker().is_php_file(self.view.file_name())
