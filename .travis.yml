@@ -6,6 +6,6 @@ python:
     - "3.3"
     - "2.6"
 script:
-    - py.test --cov=. tests/
+    - py.test --cov-config .coveragerc --cov=. tests/
 after_success:
     coveralls
