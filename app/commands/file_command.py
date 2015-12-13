@@ -2,7 +2,7 @@ from ..helper import Helper
 from ..path_builder import PathBuilder
 
 
-class OpenFileCommand:
+class FileCommand:
     def __init__(self, plugin_settings, os_path, sublime):
         self._settings = plugin_settings
         self._helper = Helper(self._settings, sublime)

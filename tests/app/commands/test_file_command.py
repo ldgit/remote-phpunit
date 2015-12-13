@@ -1,9 +1,9 @@
 import unittest
 
-from app.commands.open_file_command import OpenFileCommand
+from app.commands.file_command import FileCommand
 
 
-class TestOpenFileCommand(unittest.TestCase):
+class TestFileCommand(unittest.TestCase):
     def setUp(self):
         self.window = WindowSpy()
         self.settings = PluginSettingsStub()
@@ -11,7 +11,7 @@ class TestOpenFileCommand(unittest.TestCase):
         self.os_path = OsPathSpy()
 
         # SUT
-        self.command = OpenFileCommand(self.settings, self.os_path, self.sublime)
+        self.command = FileCommand(self.settings, self.os_path, self.sublime)
 
     def test_open_source_file(self):
         self.settings.tests_folder = 'tests/unit'
