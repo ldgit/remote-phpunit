@@ -34,7 +34,7 @@ class PathBuilder():
         return tests
 
     def _remove_root_from_filepath(self, filepath, root):
-        return filepath.replace(root + '/', '')
+        return filepath.replace(self._add_trailing_slash_if_missing(root), '')
 
     def _replace_backslashes_with_forward_slashes(self, filepath, root, tests):
         filepath = filepath.replace('\\', '/')
