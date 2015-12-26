@@ -1,4 +1,4 @@
-class Settings():
+class RemotePHPUnitSettings:
     PLUGIN_FOLDER = 'remote-phpunit'
 
     def __init__(self, sublime):

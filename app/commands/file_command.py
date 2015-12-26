@@ -9,12 +9,18 @@ class FileCommand:
         self._os_path = os_path
 
     def test_file_exists(self, filepath, window):
+        if filepath is None:
+            return False
+
         root = self._helper.find_root(window).rstrip('/')
         test_filepath = self._get_test_filepath(root, filepath)
 
         return self._os_path.isfile(test_filepath)
 
     def source_file_exists(self, test_filepath):
+        if test_filepath is None:
+            return False
+
         return self._os_path.isfile(self._get_source_filepath(test_filepath))
 
     def open_test_file(self, filepath, window):

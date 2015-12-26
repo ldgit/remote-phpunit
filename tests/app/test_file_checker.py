@@ -20,5 +20,9 @@ class TestFileChecker(unittest.TestCase):
         self.assertTrue(self.file_checker.is_php_file('A_FILE.PHP'))
         self.assertFalse(self.file_checker.is_php_file('A_FILE.PY'))
 
+    def test_file_checker_handles_none_correctly(self):
+        self.assertFalse(self.file_checker.is_php_file(None))
+
+
     def setUp(self):
         self.file_checker = FileChecker()

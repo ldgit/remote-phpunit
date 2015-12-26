@@ -43,6 +43,16 @@ class TestFileCommand(unittest.TestCase):
         self.assertFalse(self.command.source_file_exists('C:/path/to/root/path/to/fileTest.php'))
         self.assertEqual('C:/path/to/root/path/to/file.php', self.os_path.isfile_received_filepath)
 
+    def test_if_source_file_is_none_return_false(self):
+        """ This case is possible when currently opened tab in sublime is untitled (i.e. not yet created) file """
+        self.assertFalse(self.command.source_file_exists(None))
+
+    def test_if_test_file_is_none_return_false(self):
+        """ This case is possible when currently opened tab in sublime is untitled (i.e. not yet created) file """
+        self.settings.root = 'C:/path/to/root'
+        self.settings.tests_folder = 'tests/unit'
+        self.assertFalse(self.command.test_file_exists(None, self.window))
+
     def test_open_file(self):
         self.settings.root = 'C:/path/to/root'
         self.settings.tests_folder = 'tests/unit'

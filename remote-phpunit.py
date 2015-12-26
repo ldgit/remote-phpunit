@@ -13,7 +13,7 @@ except ValueError:
     # ST 2
     from app.commands import *
 
-plugin_settings = Settings(sublime)
+plugin_settings = RemotePHPUnitSettings(sublime)
 
 
 class GetTestRunCommand(sublime_plugin.TextCommand):

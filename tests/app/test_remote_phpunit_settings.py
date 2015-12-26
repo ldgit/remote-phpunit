@@ -1,11 +1,11 @@
 import unittest
-from app.settings import Settings
+from app.remote_phpunit_settings import RemotePHPUnitSettings
 
 
-class TestSettings(unittest.TestCase):
+class TestRemotePHPUnitSettings(unittest.TestCase):
     def setUp(self):
         self.sublime = SublimeSpy()
-        self.settings = Settings(self.sublime)
+        self.settings = RemotePHPUnitSettings(self.sublime)
 
     def test_correct_settings_file_is_loaded(self):
         self.settings.root
