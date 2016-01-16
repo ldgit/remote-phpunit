@@ -35,15 +35,20 @@ class TestPathBuilder(unittest.TestCase):
         tests = 'tests/unit'
         self.assertEqual('tests/unit/some_folder/a_fileTest.php', self.builder.build(file, root, tests))
 
-    def test_if_filepath_does_not_end_in_php_do_not_append_Test(self):
+    def test_if_filepath_is_a_folder_do_not_append_Test(self):
         self.assertEqual('a_folder', self.builder.build('a_folder', '', ''))
 
-    def test_filepath_does_not_end_in_php(self):
+    def test_filepath_is_a_folder(self):
         self.assertEqual('unit/tests/a_folder', self.builder.build('root/path/a_folder', 'root/path', 'unit/tests'))
 
-    def test_if_filepath_is_in_test_folder_do_not_appent_test_folder_to_path(self):
-        self.assertEqual('unit/tests/a_folder',
-                         self.builder.build('root/path/unit/tests/a_folder', 'root/path', 'unit/tests'))
+    def test_filepath_is_in_test_folder(self):
+        self.assertEqual('tests/unit/a_folder',
+                         self.builder.build('root/path/tests/unit/a_folder', 'root/path', 'tests/unit'))
+        self.assertEqual('tests/unit',
+                         self.builder.build('root/path/tests/unit', 'root/path', 'tests/unit'))
+        self.assertEqual('tests/unit',
+                         self.builder.build(u'C:\\path\\to\\root\\tests\\unit', u'C:\\path\\to\\root', u'tests/unit'),
+                         'with backslashes')
 
     def test_regression_when_root_already_ends_with_slash(self):
         file = 'C:\\path\\to\\root\\path\\to\\file\\a_file.php'

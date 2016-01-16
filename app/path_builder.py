@@ -14,10 +14,10 @@ class PathBuilder():
         filepath = self._remove_root_from_filepath(filepath, root)
         tests = self._add_trailing_slash_if_missing(tests)
 
-        return self.build_path(filepath, tests)
+        return self._build_path(filepath, tests)
 
-    def build_path(self, filepath, tests):
-        if filepath.startswith(tests):
+    def _build_path(self, filepath, tests):
+        if self._add_trailing_slash_if_missing(filepath).startswith(tests):
             return filepath
 
         if self._is_php_file(filepath):
@@ -27,11 +27,11 @@ class PathBuilder():
 
         return path[1:] if path.startswith('/') else path
 
-    def _add_trailing_slash_if_missing(self, tests):
-        if not tests.endswith('/'):
-            tests += '/'
+    def _add_trailing_slash_if_missing(self, path):
+        if not path.endswith('/'):
+            path += '/'
 
-        return tests
+        return path
 
     def _remove_root_from_filepath(self, filepath, root):
         return filepath.replace(self._add_trailing_slash_if_missing(root), '')
