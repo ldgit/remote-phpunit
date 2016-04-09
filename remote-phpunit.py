@@ -28,6 +28,14 @@ class GetTestRunCommand(sublime_plugin.TextCommand):
         return FileChecker().is_php_file(self.view.file_name())
 
 
+class GetFilteredTestRunCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        PHPUnitCommand(sublime, plugin_settings).create_run_filtered_test_command(self.view)
+
+    def is_visible(self):
+        return FileChecker().is_php_file(self.view.file_name())
+
+
 class GetCommandForFolder(sublime_plugin.WindowCommand):
     def run(self, dirs):
         PHPUnitCommand(sublime, plugin_settings).create_run_test_on_folder(dirs, self.window)

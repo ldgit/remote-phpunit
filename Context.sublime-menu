@@ -4,6 +4,10 @@
       "caption": "Run PHPUnit test on file"
     },
     {
+      "command": "get_filtered_test_run",
+      "caption": "Run PHPUnit test with filter"
+    },
+    {
       "command": "open_test_file",
       "caption": "Open test file"
     },

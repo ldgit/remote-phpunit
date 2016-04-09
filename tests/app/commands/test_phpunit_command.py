@@ -1,6 +1,7 @@
 import unittest
 
 from app.commands.phpunit_command import PHPUnitCommand
+from app.sublime_facade import SublimeFacade
 
 
 class TestPHPUnitCommand(unittest.TestCase):
@@ -49,6 +50,10 @@ class TestPHPUnitCommand(unittest.TestCase):
             'path/to/phpunit -c config/phpunit.xml --colors=\"always\" tests/unit/then/path/to/fileTest.php',
             self._sublime.text_pasted_to_clipboard)
 
+    def test_get_filtered_run_test_command(self):
+        self.assert_correct_filter_set_for_run_filtered_test_command('wordAtCaret')
+        self.assert_correct_filter_set_for_run_filtered_test_command('differentWordAtCaret')
+
     def test_get_command_for_folder(self):
         dirs = ['C:/path/to/root/then/path/to/folder']
         window = self.get_window_stub('C:/path/to/root')
@@ -67,6 +72,17 @@ class TestPHPUnitCommand(unittest.TestCase):
 
         self.assertEqual(
             'path/to/phpunit tests/unit/then/path/to/folder',
+            self._sublime.text_pasted_to_clipboard)
+
+    def assert_correct_filter_set_for_run_filtered_test_command(self, expected_filter):
+        self._view.expected_filter = expected_filter
+        self._command._sublime_facade = SublimeFacade()
+        self._command._sublime_facade.get_word_at_caret = lambda view: view.expected_filter
+
+        self._command.create_run_filtered_test_command(self._view)
+
+        self.assertEqual(
+            'path/to/phpunit tests/unit/then/path/to/fileTest.php --filter ' + expected_filter,
             self._sublime.text_pasted_to_clipboard)
 
     def get_window_stub(self, path_to_root):
