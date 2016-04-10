@@ -28,12 +28,33 @@ class TestSublimeFacade(unittest.TestCase):
 
         self.assertEqual('selected region', self.view.word_input_value)
 
+    def test_get_line_at_caret_returns_view_substr(self):
+        self.view.substr_return_value = 'a substring of a region'
+
+        self.assertEqual('a substring of a region', self.sublime_facade.get_line_at_caret(self.view))
+
+    def test_get_line_at_caret_substr_accepts_view_line_region_as_parameter(self):
+        self.view.line_return_value = 'a value returned by line'
+
+        self.sublime_facade.get_line_at_caret(self.view)
+
+        self.assertEqual('a value returned by line', self.view.substr_input_value)
+
+    def test_get_line_at_caret_line_accepts_first_element_of_list_returned_by_view_sel(self):
+        self.view.sel_return_value = ['selected region']
+
+        self.sublime_facade.get_line_at_caret(self.view)
+
+        self.assertEqual('selected region', self.view.line_input_value)
+
 
 class ViewSpy:
     def __init__(self):
         self.sel_return_value = None
         self.word_return_value = None
         self.word_input_value = None
+        self.line_return_value = None
+        self.line_input_value = None
         self.substr_return_value = None
         self.substr_input_value = None
 
@@ -46,6 +67,11 @@ class ViewSpy:
         self.word_input_value = region
 
         return self.word_return_value
+
+    def line(self, region):
+        self.line_input_value = region
+
+        return self.line_return_value
 
     def sel(self):
         return self.sel_return_value

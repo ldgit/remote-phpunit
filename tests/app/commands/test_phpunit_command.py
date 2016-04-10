@@ -74,6 +74,47 @@ class TestPHPUnitCommand(unittest.TestCase):
             'path/to/phpunit tests/unit/then/path/to/folder',
             self._sublime.text_pasted_to_clipboard)
 
+    def test_is_current_line_php_test_function_returns_true_if_file_is_php_test_file(self):
+        self._view.file_name_to_return = 'PhpFileTest.php'
+        self._command._sublime_facade.get_line_at_caret = lambda view: 'public function'
+        self.assertTrue(self._command.is_current_line_php_test_function(self._view))
+
+    def test_is_current_line_php_test_function_returns_true_if_line_contains_words_public_and_function_in_that_order(
+            self):
+        self._view.file_name_to_return = 'PhpFileTest.php'
+        self._view.current_line = 'public function testFunction()'
+        self._command._sublime_facade.get_line_at_caret = lambda view: view.current_line
+
+        self.assertTrue(self._command.is_current_line_php_test_function(self._view))
+
+        self._view.current_line = 'public  function testFunction()'
+        self.assertTrue(self._command.is_current_line_php_test_function(self._view), 'Account for extra space')
+
+    def test_is_current_line_php_test_function_returns_false_if_current_line_is_not_function_line(self):
+        self._view.file_name_to_return = 'AFileTest.php'
+        # Property current_line does not exist in view object but is used here to assert that view was sent as a
+        # parameter to SublimeFacade.get_line_at_caret() function
+        self._view.current_line = 'a regular line of code where words "function" and "public" are not in correct order'
+        self._command._sublime_facade.get_line_at_caret = lambda view: view.current_line
+
+        self.assertFalse(self._command.is_current_line_php_test_function(self._view))
+
+    def test_is_current_line_php_test_function_returns_false_if_file_is_not_php_test_file(self):
+        self._command._sublime_facade.get_line_at_caret = lambda view: 'public function'
+
+        self._view.file_name_to_return = 'not_php_file.py'
+        self.assertFalse(self._command.is_current_line_php_test_function(self._view))
+
+        self._view.file_name_to_return = 'PhpNotTestFile.php'
+        self.assertFalse(self._command.is_current_line_php_test_function(self._view))
+
+        self._view.file_name_to_return = 'LowerCaseFiletest.php'
+        self.assertFalse(self._command.is_current_line_php_test_function(self._view),
+                         'Filename that ends with test.php is not a test file.')
+
+        self._view.file_name_to_return = None
+        self.assertFalse(self._command.is_current_line_php_test_function(self._view))
+
     def assert_correct_filter_set_for_run_filtered_test_command(self, expected_filter):
         self._view.expected_filter = expected_filter
         self._command._sublime_facade = SublimeFacade()

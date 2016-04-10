@@ -8,3 +8,9 @@ class FileChecker:
             return False
 
         return filepath.lower().endswith('.php')
+
+    def is_php_test_file(self, filepath):
+        if filepath is None:
+            return False
+
+        return filepath.endswith('Test.php')

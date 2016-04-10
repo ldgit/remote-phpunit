@@ -33,7 +33,7 @@ class GetFilteredTestRunCommand(sublime_plugin.TextCommand):
         PHPUnitCommand(sublime, plugin_settings).create_run_filtered_test_command(self.view)
 
     def is_visible(self):
-        return FileChecker().is_php_file(self.view.file_name())
+        return PHPUnitCommand(sublime, plugin_settings).is_current_line_php_test_function(self.view)
 
 
 class GetCommandForFolder(sublime_plugin.WindowCommand):
