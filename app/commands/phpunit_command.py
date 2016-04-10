@@ -1,4 +1,4 @@
-from app.file_checker import FileChecker
+from ..file_checker import FileChecker
 from ..path_builder import PathBuilder
 from ..helper import Helper
 from ..sublime_facade import SublimeFacade
