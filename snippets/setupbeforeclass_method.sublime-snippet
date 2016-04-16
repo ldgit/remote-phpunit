@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[
+public static function setUpBeforeClass()
+{
+	${1:# code}
+}
+
+]]></content>
+	<tabTrigger>bcsetup</tabTrigger>
+	<scope>source.php</scope>
+    <description>create empty before class setup method</description>
+</snippet>

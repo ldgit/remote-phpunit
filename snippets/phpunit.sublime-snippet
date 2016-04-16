@@ -11,15 +11,3 @@ class $TM_FILENAME extends PHPUnit_Framework_TestCase
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>punit</tabTrigger>
 </snippet>
-<snippet>
-	<content><![CDATA[
-/** @test */
-public function newTest()
-{
-
-}
-
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>test</tabTrigger>
-</snippet>
