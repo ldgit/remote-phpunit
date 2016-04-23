@@ -2,7 +2,7 @@
     // path to root of your project, if this is empty plugin uses the current sublime project root
 	"root": "",
 	// path to test folder, relative and starting from root
-	"tests_folder": "tests/unit",
+	"tests_folder": "tests",
 	// path to phpunit, relative and starting from root
 	"path_to_phpunit": "vendor/bin/phpunit",
 	// command line options

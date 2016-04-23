@@ -38,9 +38,18 @@ class FileCommand:
         return test_filepath.replace('\\', '/')
 
     def _get_source_filepath(self, test_filepath):
-        filepath = test_filepath\
-            .replace('\\', '/')\
-            .replace(self._settings.tests_folder, '')
-        filepath = filepath[:-8] + filepath[-4:]
+        filepath = test_filepath.replace('\\', '/')
+        filepath = self._remove_tests_folder_from_path(filepath)
+        filepath = self._remove_test_suffix_from_filename(filepath)
 
         return filepath.replace('//', '/')
+
+    def _remove_tests_folder_from_path(self, filepath):
+        if self._settings.tests_folder + '/unit' in filepath:
+            filepath = filepath.replace(self._settings.tests_folder + '/unit', '')
+        else:
+            filepath = filepath.replace(self._settings.tests_folder, '', 1)
+        return filepath
+
+    def _remove_test_suffix_from_filename(self, filepath):
+        return filepath[:-8] + filepath[-4:]

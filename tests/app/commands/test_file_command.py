@@ -27,6 +27,30 @@ class TestFileCommand(unittest.TestCase):
 
         self.assertEqual('C:/path/to/root/path/to/file.php', self.window.file_to_open)
 
+    def test_open_source_file_when_tests_folder_is_not_unit_test_folder(self):
+        self.settings.root = 'C:/path/to/root'
+        self.settings.tests_folder = 'tests_folder'
+
+        self.command.open_source_file('C:/path/to/root/tests_folder/unit/path/to/fileTest.php', self.window)
+
+        self.assertEqual('C:/path/to/root/path/to/file.php', self.window.file_to_open)
+
+    def test_open_source_file_remove_only_first_appearance_of_tests_folder_in_path(self):
+        self.settings.root = 'C:/path/to/root'
+        self.settings.tests_folder = 'tests'
+
+        self.command.open_source_file('C:/path/to/root/tests/unit/path/to/tests/fileTest.php', self.window)
+
+        self.assertEqual('C:/path/to/root/path/to/tests/file.php', self.window.file_to_open)
+
+    def test_open_source_file_when_tests_folder_is_not_unit_test_folder_remove_only_unit_folder_after_test_path(self):
+        self.settings.root = 'C:/path/to/root'
+        self.settings.tests_folder = 'tests_folder'
+
+        self.command.open_source_file('C:/path/to/root/tests_folder/unit/path/to/unit/fileTest.php', self.window)
+
+        self.assertEqual('C:/path/to/root/path/to/unit/file.php', self.window.file_to_open)
+
     def test_if_source_file_exists_return_true(self):
         self.settings.tests_folder = 'tests/unit'
         self.os_path.is_file_returns = True

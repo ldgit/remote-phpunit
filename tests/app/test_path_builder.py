@@ -29,6 +29,20 @@ class TestPathBuilder(unittest.TestCase):
         root = 'C:\\root_folder'
         self.assertEqual('some_folder/a_fileTest.php', self.builder.build(file, root, ''))
 
+    def test_if_tests_folder_is_not_unit_test_folder_assume_there_is_unit_subfolder_in_tests_folder(self):
+        file = 'C:/path/to/root/path/to/file/a_file.php'
+        root = 'C:/path/to/root'
+        path_to_tests = 'tests'
+
+        self.assertEqual('tests/unit/path/to/file/a_fileTest.php', self.builder.build(file, root, path_to_tests))
+
+    def test_if_file_inside_tests_folder_just_use_its_relative_path(self):
+        file = 'C:/path/to/root/tests_folder/path/to/file/a_fileTest.php'
+        root = 'C:/path/to/root'
+        path_to_tests = 'tests_folder'
+
+        self.assertEqual('tests_folder/path/to/file/a_fileTest.php', self.builder.build(file, root, path_to_tests))
+
     def test_all_together(self):
         file = 'C:\\root_folder\\some_folder\\a_file.php'
         root = 'C:\\root_folder'
@@ -39,13 +53,13 @@ class TestPathBuilder(unittest.TestCase):
         self.assertEqual('a_folder', self.builder.build('a_folder', '', ''))
 
     def test_filepath_is_a_folder(self):
-        self.assertEqual('unit/tests/a_folder', self.builder.build('root/path/a_folder', 'root/path', 'unit/tests'))
+        self.assertEqual('tests/unit/a_folder', self.builder.build('path/to/root/a_folder', 'path/to/root', 'tests/unit'))
 
     def test_filepath_is_in_test_folder(self):
         self.assertEqual('tests/unit/a_folder',
-                         self.builder.build('root/path/tests/unit/a_folder', 'root/path', 'tests/unit'))
+                         self.builder.build('path/to/root/tests/unit/a_folder', 'path/to/root', 'tests/unit'))
         self.assertEqual('tests/unit',
-                         self.builder.build('root/path/tests/unit', 'root/path', 'tests/unit'))
+                         self.builder.build('path/to/root/tests/unit', 'path/to/root', 'tests/unit'))
         self.assertEqual('tests/unit',
                          self.builder.build(u'C:\\path\\to\\root\\tests\\unit', u'C:\\path\\to\\root', u'tests/unit'),
                          'with backslashes')

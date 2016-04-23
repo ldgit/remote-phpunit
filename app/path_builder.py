@@ -1,20 +1,22 @@
 class PathBuilder():
-    def build(self, filepath, root, tests):
+    def build(self, filepath, root, path_to_tests):
         """
         Takes full filepath, root folder path, and relative unit tests folder path and returns a path to
         corresponding test file.
 
         :param string filepath: full path, including the filename, of the tested file
         :param string root: root folder of the project
-        :param string tests: path to unit test folder, relative to root
+        :param string path_to_tests: path to test folder, relative to root
         :return: string path to test file
         """
 
-        filepath, root, tests = self._replace_backslashes_with_forward_slashes(filepath, root, tests)
+        filepath, root, path_to_tests = self._replace_backslashes_with_forward_slashes(filepath, root, path_to_tests)
         filepath = self._remove_root_from_filepath(filepath, root)
-        tests = self._add_trailing_slash_if_missing(tests)
+        path_to_tests = self._add_trailing_slash_if_missing(path_to_tests)
+        if not self._file_is_in_test_folder(filepath, path_to_tests):
+            path_to_tests = self._add_unit_subfolder_if_missing(path_to_tests)
 
-        return self._build_path(filepath, tests)
+        return self._build_path(filepath, path_to_tests)
 
     def _build_path(self, filepath, tests):
         if self._add_trailing_slash_if_missing(filepath).startswith(tests):
@@ -33,6 +35,13 @@ class PathBuilder():
 
         return path
 
+    def _add_unit_subfolder_if_missing(self, tests_path):
+        test_path_not_empty = tests_path != '/'
+        if test_path_not_empty and not tests_path.endswith('unit/'):
+            tests_path += 'unit/'
+
+        return tests_path
+
     def _remove_root_from_filepath(self, filepath, root):
         return filepath.replace(self._add_trailing_slash_if_missing(root), '')
 
@@ -48,3 +57,9 @@ class PathBuilder():
 
     def _is_php_file(self, filepath):
         return filepath[-4:] == '.php'
+
+    def _file_is_in_test_folder(self, filepath, path_to_tests):
+        if filepath.startswith(path_to_tests):
+            return True
+
+        return False
