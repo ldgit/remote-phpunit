@@ -7,7 +7,7 @@
 	"path_to_phpunit": "vendor/bin/phpunit",
 	// command line options
 	"options": [
-		"-c config/phpunit.xml",
+		"-c phpunit.xml",
 		"--colors=\"always\""
 	]
 }
