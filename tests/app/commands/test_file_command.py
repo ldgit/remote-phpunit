@@ -15,17 +15,25 @@ class TestFileCommand(unittest.TestCase):
 
     def test_open_source_file(self):
         self.settings.tests_folder = 'tests/unit'
-
         self.command.open_source_file('C:/path/to/root/tests/unit/path/to/fileTest.php', self.window)
-
         self.assertEqual('C:/path/to/root/path/to/file.php', self.window.file_to_open)
 
     def test_open_source_file_works_with_backslashes(self):
         self.settings.tests_folder = 'tests/unit'
-
         self.command.open_source_file('C:\\path\\to\\root\\tests\\unit\\path\\to\\fileTest.php', self.window)
-
         self.assertEqual('C:/path/to/root/path/to/file.php', self.window.file_to_open)
+
+    def test_open_source_file_works_for_network_paths(self):
+        self.settings.tests_folder = 'tests'
+        self.command.open_source_file('\\\\server\\dev\\root\\tests\\unit\\Service\\SearchParametersMapperTest.php',
+                                      self.window)
+        self.assertEqual('\\\\server\\dev\\root\\Service\\SearchParametersMapper.php', self.window.file_to_open)
+
+    def test_open_source_file_works_for_network_paths_and_complex_tests_folder(self):
+        self.settings.tests_folder = 'tests/unit'
+        self.command.open_source_file('\\\\server\\dev\\root\\tests\\unit\\Service\\SearchParametersMapperTest.php',
+                                      self.window)
+        self.assertEqual('\\\\server\\dev\\root\\Service\\SearchParametersMapper.php', self.window.file_to_open)
 
     def test_open_source_file_when_tests_folder_is_not_unit_test_folder(self):
         self.settings.root = 'C:/path/to/root'

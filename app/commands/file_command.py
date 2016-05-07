@@ -38,18 +38,31 @@ class FileCommand:
         return test_filepath.replace('\\', '/')
 
     def _get_source_filepath(self, test_filepath):
-        filepath = test_filepath.replace('\\', '/')
-        filepath = self._remove_tests_folder_from_path(filepath)
+        filepath = test_filepath
+        if test_filepath.startswith('\\\\'):
+            separator = '\\'
+        else:
+            separator = '/'
+            filepath = test_filepath.replace('\\', separator)
+        filepath = self._remove_tests_folder_from_path(filepath, separator)
         filepath = self._remove_test_suffix_from_filename(filepath)
 
+        return filepath
+
+    def _remove_tests_folder_from_path(self, filepath, folder_separator='/'):
+        tests_folder = self._ensure_correct_folder_separator(folder_separator)
+        if tests_folder + folder_separator + 'unit' in filepath:
+            filepath = filepath.replace(tests_folder + folder_separator + 'unit' + folder_separator, '')
+        else:
+            filepath = filepath.replace(tests_folder + folder_separator, '', 1)
+
+        return self._ensure_no_double_forward_slashes(filepath)
+
+    def _ensure_no_double_forward_slashes(self, filepath):
         return filepath.replace('//', '/')
 
-    def _remove_tests_folder_from_path(self, filepath):
-        if self._settings.tests_folder + '/unit' in filepath:
-            filepath = filepath.replace(self._settings.tests_folder + '/unit', '')
-        else:
-            filepath = filepath.replace(self._settings.tests_folder, '', 1)
-        return filepath
+    def _ensure_correct_folder_separator(self, folder_separator):
+        return self._settings.tests_folder.replace('/', folder_separator).replace('\\', folder_separator)
 
     def _remove_test_suffix_from_filename(self, filepath):
         return filepath[:-8] + filepath[-4:]
