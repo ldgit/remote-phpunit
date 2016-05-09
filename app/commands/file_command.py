@@ -1,5 +1,6 @@
 from ..helper import Helper
 from ..path_builder import PathBuilder
+from ..file_checker import FileChecker
 
 
 class FileCommand:
@@ -18,7 +19,7 @@ class FileCommand:
         return self._os_path.isfile(test_filepath)
 
     def source_file_exists(self, test_filepath):
-        if test_filepath is None:
+        if test_filepath is None or not FileChecker().is_php_test_file(test_filepath):
             return False
 
         return self._os_path.isfile(self._get_source_filepath(test_filepath))

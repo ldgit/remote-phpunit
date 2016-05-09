@@ -68,6 +68,14 @@ class TestFileCommand(unittest.TestCase):
         self.assertTrue(actual)
         self.assertEqual('C:/path/to/root/path/to/file.php', self.os_path.isfile_received_filepath)
 
+    def test_source_file_does_not_exist_if_file_already_is_a_source_file(self):
+        self.settings.tests_folder = 'tests/unit'
+        self.os_path.is_file_returns = True
+
+        actual = self.command.source_file_exists('root\path\src\Gallery\ImageType.php')
+
+        self.assertFalse(actual)
+
     def test_if_source_file_does_not_exist_return_false(self):
         self.settings.tests_folder = 'tests/unit'
         self.os_path.is_file_returns = False
