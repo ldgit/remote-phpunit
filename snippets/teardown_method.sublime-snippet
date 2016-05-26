@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[
+public function tearDown()
+{
+	${1:# code}
+}
+
+]]></content>
+	<tabTrigger>teardown</tabTrigger>
+	<scope>source.php</scope>
+    <description>create empty phpunit tearDown method</description>
+</snippet>
