@@ -44,8 +44,21 @@ class PHPUnitCommand:
         return command.replace('  ', ' ')
 
     def _build_command(self, test_path):
-        return self._plugin_settings.path_to_phpunit + ' ' + ' '.join(self._plugin_settings.cl_options) + ' ' \
-                  + test_path
+        if self._plugin_settings.xml_config:
+            config_file_option = self._find_most_appropriate_config_by_test_path(test_path)
+        else:
+            config_file_option = ' -c phpunit.xml '
+
+        return self._plugin_settings.path_to_phpunit + config_file_option + ' '.join(
+            self._plugin_settings.cl_options) + ' ' \
+               + test_path
+
+    def _find_most_appropriate_config_by_test_path(self, test_path):
+        for xml_config in self._plugin_settings.xml_config:
+            if test_path.startswith(xml_config['path']):
+                config_file_option = ' -c ' + xml_config['name'] + ' '
+
+        return config_file_option
 
     def _get_path_builder(self):
         return PathBuilder()

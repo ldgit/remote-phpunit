@@ -1,13 +1,19 @@
 {
-    // path to root of your project, if this is empty plugin uses the current sublime project root
+    // Path to root of your project, if this is empty plugin uses the current sublime project root
 	"root": "",
-	// path to test folder, relative and starting from root
+	// Path to test folder, relative and starting from root
 	"tests_folder": "tests",
-	// path to phpunit, relative and starting from root
+	// Path to phpunit, relative and starting from root
 	"path_to_phpunit": "vendor/bin/phpunit",
-	// command line options
+	// Path to phpunit xml configuration file, relative and starting from root.
+	// It is possible to define different config files for different paths. Latter paths will override previous paths.
+	// Any paths beside the first one will only work when creating a command on files and folders inside the test folder.
+	"xml_config": [
+		{"name": "phpunit.xml", "path": "tests"},
+		{"name": "phpunit-integration.xml", "path": "tests/integration"}
+	],
+	// Command line options
 	"options": [
-		"-c phpunit.xml",
 		"--colors=\"always\""
 	]
 }

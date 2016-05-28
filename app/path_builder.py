@@ -1,10 +1,10 @@
 class PathBuilder():
     def build(self, filepath, root, path_to_tests):
         """
-        Takes full filepath, root folder path, and relative unit tests folder path and returns a path to
-        corresponding test file.
+        Takes full filepath, root folder path, and relative tests folder path and returns a path to corresponding test
+        file.
 
-        :param string filepath: full path, including the filename, of the tested file
+        :param string filepath: full path, including the filename, of the tested file. Can also be a test file itself.
         :param string root: root folder of the project
         :param string path_to_tests: path to test folder, relative to root
         :return: string path to test file

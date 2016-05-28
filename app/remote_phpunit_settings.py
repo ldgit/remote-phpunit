@@ -21,6 +21,10 @@ class RemotePHPUnitSettings:
     def tests_folder(self):
         return self._get('tests_folder')
 
+    @property
+    def xml_config(self):
+        return self._get('xml_config')
+
     def _get(self, name):
         settings = self._sublime.load_settings(self._settings_file)
 

@@ -9,7 +9,7 @@ class TestRemotePHPUnitSettings(unittest.TestCase):
 
     def test_correct_settings_file_is_loaded(self):
         self.settings.root
-        self.assertThatCorrectSublimeSettingsFileIsLoaded(self.settings, self.sublime.settings_file_to_load)
+        self._assertThatCorrectSublimeSettingsFileIsLoaded(self.settings, self.sublime.settings_file_to_load)
 
     def test_get_root(self):
         self.assertEqual(SublimeSettingsStub.ROOT_SETTING, self.settings.root)
@@ -23,7 +23,10 @@ class TestRemotePHPUnitSettings(unittest.TestCase):
     def test_get_tests_folder(self):
         self.assertEqual(SublimeSettingsStub.TESTS_FOLDER, self.settings.tests_folder)
 
-    def assertThatCorrectSublimeSettingsFileIsLoaded(self, settings, sublime_settings_file):
+    def test_get_xml_config(self):
+        self.assertEqual(SublimeSettingsStub.XML_CONFIG, self.settings.xml_config)
+
+    def _assertThatCorrectSublimeSettingsFileIsLoaded(self, settings, sublime_settings_file):
         self.assertEqual(settings._settings_file, sublime_settings_file)
 
 
@@ -42,6 +45,7 @@ class SublimeSettingsStub:
     CL_OPTIONS_SETTING = 'a command line option list...'
     PATH_TO_PHPUNIT = 'path to phpunit'
     TESTS_FOLDER = 'path to test folder'
+    XML_CONFIG = [{"name": "phpunit.xml", "path": "tests"}]
 
     def get(self, setting_name):
         if setting_name == 'root':
@@ -55,5 +59,8 @@ class SublimeSettingsStub:
 
         if setting_name == 'tests_folder':
             return self.TESTS_FOLDER
+
+        if setting_name == 'xml_config':
+            return self.XML_CONFIG
 
         return None
