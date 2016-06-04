@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+\$this->markTestIncomplete('${1}');
+]]></content>
+	<tabTrigger>minc</tabTrigger>
+	<scope>source.php</scope>
+    <description>Mark test as incomplete</description>
+</snippet>

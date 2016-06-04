@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+/**
+ * @testWith []
+ *           []
+ */
+]]></content>
+	<tabTrigger>atwith</tabTrigger>
+	<scope>source.php</scope>
+    <description>create @testWith annotation</description>
+</snippet>
