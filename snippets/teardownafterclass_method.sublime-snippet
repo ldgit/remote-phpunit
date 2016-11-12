@@ -6,7 +6,7 @@ public static function tearDownAfterClass()
 }
 
 ]]></content>
-	<tabTrigger>bcteardown</tabTrigger>
+	<tabTrigger>acteardown</tabTrigger>
 	<scope>source.php</scope>
     <description>create empty phpunit tearDownAfterClass method</description>
 </snippet>
