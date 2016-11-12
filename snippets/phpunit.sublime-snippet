@@ -2,7 +2,7 @@
 	<content><![CDATA[
 <?php
 
-use PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
 
 class $TM_FILENAME extends TestCase
 {
