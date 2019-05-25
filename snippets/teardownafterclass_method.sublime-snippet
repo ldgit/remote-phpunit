@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-public static function tearDownAfterClass()
+public static function tearDownAfterClass(): void
 {
 	${1:# code}
 }

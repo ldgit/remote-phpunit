@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-public function tearDown()
+public function tearDown(): void
 {
 	${1:# code}
 }

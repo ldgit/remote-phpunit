@@ -1,7 +1,7 @@
 <snippet>
 	<content><![CDATA[
 /** @test */
-public function ${1:newTest}()
+public function ${1:newTest}(): void
 {
 	${2:# code}
 }
